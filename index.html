@@ -5,16 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Welcome | My Company</title>
   <style>
-    /* ゲートウェイページ専用のスタイル */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    /* ゲートウェイページ専用スタイル */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-      /* 元のヒーローエリアのグラデーションを背景に使用 */
+      font-family: "Helvetica Neue", Arial, sans-serif;
       background: linear-gradient(135deg, #111 0%, #444 100%);
       height: 100vh;
       display: flex;
@@ -22,7 +16,6 @@
       justify-content: center;
       color: #fff;
     }
-
     .gate-container {
       text-align: center;
       background: rgba(255, 255, 255, 0.1);
@@ -33,26 +26,9 @@
       max-width: 500px;
       width: 90%;
     }
-
-    .logo {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .message {
-      margin-bottom: 40px;
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-    .selection {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
+    .logo { font-size: 2.5rem; font-weight: bold; margin-bottom: 10px; }
+    .message { margin-bottom: 40px; opacity: 0.9; }
+    .selection { display: flex; flex-direction: column; gap: 20px; }
     .btn {
       display: block;
       padding: 20px;
@@ -64,48 +40,22 @@
       font-size: 1.1rem;
       border: 2px solid #fff;
     }
-
-    /* PC版ボタン */
-    .btn-pc {
-      background: transparent;
-    }
-    .btn-pc:hover {
-      background: #fff;
-      color: #111;
-    }
-
-    /* スマホ版ボタン */
-    .btn-sp {
-      background: #0056b3;
-      border-color: #0056b3;
-    }
-    .btn-sp:hover {
-      background: #004494;
-      border-color: #004494;
-      transform: translateY(-3px);
-    }
-
-    .footer-text {
-      margin-top: 30px;
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
+    .btn-pc { background: transparent; }
+    .btn-pc:hover { background: #fff; color: #111; }
+    .btn-sp { background: #0056b3; border-color: #0056b3; }
+    .btn-sp:hover { background: #004494; transform: translateY(-3px); }
+    .footer-text { margin-top: 30px; font-size: 0.8rem; opacity: 0.6; }
   </style>
 </head>
 <body>
-
   <div class="gate-container">
-    <div class="logo">Nove_ai_lab</div>
+    <div class="logo">My Company</div>
     <p class="message">閲覧するサイトのバージョンを選択してください</p>
-
     <div class="selection">
-      <a href="pc.html" class="btn btn-pc">PC版サイトを表示</a>
-      
+      <a href="web.html" class="btn btn-pc">ブラウザ版サイトを表示</a>
       <a href="sp.html" class="btn btn-sp">スマートフォン版を表示</a>
     </div>
-
     <p class="footer-text">© 2025 My Company</p>
   </div>
-
 </body>
 </html>
