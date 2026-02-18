@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Nobu-AI-Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --sidebar-width: 260px;
+            --banner-height: 70px;
+            --accent-color: #ffffff;
+            --border-color: #1a1a1a;
+            --content-gap: 16px;
+        }
+
+        body { background: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+
+        /* ロゴボックス */
+        .logo-box {
+            position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: var(--banner-height);
+            background: var(--bg-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+            z-index: 100; display: flex; align-items: center; padding-left: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .logo-box { width: 100%; border-right: none; }
+            body { flex-direction: column; overflow-y: auto; height: auto; }
+        }
+
+        .logo-text { font-weight: 900; font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; }
+
+        /* 左サイドバー */
+        .sidebar {
+            width: var(--sidebar-width); padding-top: var(--banner-height); border-right: 1px solid var(--border-color);
+            display: flex; flex-direction: column; flex-shrink: 0; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { position: fixed; left: 0; top: 0; bottom: 0; background: #000; z-index: 110; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+        }
+
+        .nav-menu { padding: 2rem; flex-grow: 1; }
+        .nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 0; font-size: 0.75rem; color: #525252; text-decoration: none; letter-spacing: 0.15em; }
+        .nav-item:hover, .nav-item.active { color: #fff; }
+
+        /* コンテンツエリア */
+        .content-wrapper {
+            flex-grow: 1; margin-top: calc(var(--banner-height) + var(--content-gap)); margin-left: var(--content-gap); margin-right: var(--content-gap);
+            padding: 4rem 2rem; overflow-y: auto; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color);
+            display: flex; justify-content: center; align-items: flex-start;
+        }
+
+        @media (max-width: 1024px) { 
+            .content-wrapper { margin: var(--banner-height) 0 0 0; border: none; padding: 3rem 1.5rem; flex-direction: column; align-items: center; text-align: center; height: auto; overflow-y: visible; } 
+        }
+
+        /* プロフィールコンテナ */
+        .profile-container {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            gap: 5rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 1024px) {
+            .profile-container { flex-direction: column; gap: 3rem; align-items: center; }
+        }
+
+        /* 左側：丸いアイコン */
+        .avatar-circle {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            background: linear-gradient(145deg, #111, #000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 640px) { .avatar-circle { width: 180px; height: 180px; } }
+
+        .avatar-circle img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s ease;
+        }
+        .avatar-circle:hover img { filter: grayscale(0%); }
+
+        /* 右側：情報 */
+        .name-large {
+            font-size: 3.5rem; font-weight: 900; letter-spacing: -0.05em; margin-bottom: 1rem; line-height: 1; text-transform: uppercase;
+        }
+
+        @media (max-width: 640px) { .name-large { font-size: 2.2rem; } }
+
+        .bio-text { font-size: 0.95rem; line-height: 1.8; color: #a3a3a3; margin-bottom: 2.5rem; max-width: 600px; }
+
+        .sns-links {
+            display: flex; gap: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem;
+        }
+
+        @media (max-width: 1024px) { .sns-links { justify-content: center; flex-wrap: wrap; gap: 1.5rem; } }
+
+        .sns-item {
+            display: flex; align-items: center; gap: 0.6rem; color: #525252; text-decoration: none; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; transition: color 0.3s;
+        }
+        .sns-item:hover { color: #fff; }
+
+        /* スマホ用トグル */
+        .menu-toggle { display: none; position: fixed; top: 22px; right: 20px; z-index: 120; color: white; cursor: pointer; }
+        @media (max-width: 1024px) { .menu-toggle { display: block; } }
+
+        .content-wrapper::-webkit-scrollbar { width: 2px; }
+        .content-wrapper::-webkit-scrollbar-thumb { background: #262626; }
+    </style>
+</head>
+<body>
+
+    <div class="menu-toggle" id="menuToggle"><i data-lucide="menu"></i></div>
+
+    <div class="logo-box">
+        <div class="logo-text">NOBU-AI</div>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="nav-menu">
+            <a href="homepage.html" class="nav-item"><i data-lucide="home" class="w-4 h-4"></i> HOME</a>
+            <a href="collections.html" class="nav-item"><i data-lucide="grid" class="w-4 h-4"></i> GALLERY</a>
+            <a href="#" class="nav-item"><i data-lucide="zap" class="w-4 h-4"></i> LAB LOG</a>
+            <a href="about.html" class="nav-item active"><i data-lucide="info" class="w-4 h-4"></i> ABOUT</a>
+            <a href="#" class="nav-item"><i data-lucide="send" class="w-4 h-4"></i> CONTACT</a>
+        </nav>
+        <div class="p-8 text-[8px] text-neutral-800 font-bold uppercase tracking-[0.3em]">© NOBU-AI-LAB</div>
+    </aside>
+
+    <main class="content-wrapper">
+        <div class="profile-container">
+            <div class="avatar-circle">
+                <img src="images/homepage.png" alt="Profile" onerror="this.src='https://via.placeholder.com/400?text=NOBU'">
+            </div>
+
+            <div class="profile-right text-left">
+                <div class="text-[10px] text-neutral-600 font-bold uppercase tracking-[0.4em] mb-3">AI Creator</div>
+                <h1 class="name-large">Nobu AI Lab</h1>
+                
+                <div class="bio-text">
+                    <p class="mb-4">2025年6月に「Nobu-AI-Lab」を設立し、オリジナルキャラを中心に投稿活動をおこなっている。</p>
+                </div>
+
+                <div class="sns-links">
+                    <a href="#" class="sns-item"><i data-lucide="twitter" class="w-4 h-4"></i> TWITTER</a>
+                    <a href="#" class="sns-item"><i data-lucide="instagram" class="w-4 h-4"></i> INSTAGRAM</a>
+                    <a href="#" class="sns-item"><i data-lucide="github" class="w-4 h-4"></i> GITHUB</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        
+        const toggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        toggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            const icon = toggle.querySelector('[data-lucide]');
+            if (icon) {
+                icon.setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
