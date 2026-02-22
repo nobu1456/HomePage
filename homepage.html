@@ -2,312 +2,400 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nobu-AI-Lab | Gallery & Lab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nobu-AI-Lab | Official</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --sidebar-width: 260px;
+            --bg-color: #050505;
             --banner-height: 70px;
-            --accent-color: #ffffff;
-            --border-color: #1a1a1a;
-            --content-gap: 16px;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sub: #999999;
+            --accent-glow: rgba(255, 255, 255, 0.05);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg-color);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
         }
 
-        /* ロゴボックス */
-        .logo-box {
+        /* --- Header --- */
+        header {
             position: fixed;
             top: 0;
-            left: 0;
-            width: var(--sidebar-width);
+            width: 100%;
             height: var(--banner-height);
-            background-color: var(--bg-color);
-            border-right: 1px solid var(--border-color);
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-color);
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             align-items: center;
-            padding-left: 2rem;
+            padding: 0 5%;
         }
 
-        @media (max-width: 1024px) {
-            .logo-box { width: 100%; border-right: none; }
-            body { flex-direction: column; overflow-y: auto; height: auto; }
+        .logo-box {
+            height: 28px;
+            margin-right: 30px;
+            flex-shrink: 0;
         }
 
-        .logo-text {
-            font-weight: 900;
-            font-size: 1rem;
+        .logo-box img {
+            height: 100%;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto; /* スマホでメニューが多い場合に横スクロール可能に */
+            scrollbar-width: none;
+        }
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-item {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-item:active, .nav-item:hover {
+            color: #fff;
+            background: var(--accent-glow);
+        }
+
+        /* --- Main Content --- */
+        main {
+            margin-top: var(--banner-height);
+            padding: 40px 5% 60px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Hero Section --- */
+        .hero-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            min-height: 400px;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .philosophy {
+            flex: 1;
+        }
+
+        .tagline {
+            font-size: 0.65rem;
+            color: #555;
             letter-spacing: 0.3em;
             text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
         }
 
-        /* 上部バナー */
-        .top-banner {
-            position: fixed;
-            top: 0;
-            left: var(--sidebar-width);
-            right: 0;
-            height: var(--banner-height);
-            border-bottom: 1px solid var(--border-color);
-            background-color: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(20px);
-            z-index: 90;
-            display: flex;
-            align-items: center;
-            padding: 0 2rem;
+        .philosophy h2 {
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            line-height: 1.3;
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
-        @media (max-width: 1024px) {
-            .top-banner { display: none; }
+        .philosophy p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.8;
+            max-width: 450px;
         }
 
-        /* 左サイドバー */
-        .sidebar {
-            width: var(--sidebar-width);
-            padding-top: var(--banner-height);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        @media (max-width: 1024px) {
-            .sidebar {
-                position: fixed;
-                left: 0; top: 0; bottom: 0;
-                background: #000;
-                z-index: 110;
-                transform: translateX(-100%);
-            }
-            .sidebar.open { transform: translateX(0); }
-        }
-
-        .nav-menu { padding: 2rem; flex-grow: 1; }
-        .nav-item {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 1rem 0; font-size: 0.75rem; color: #525252;
-            text-decoration: none; letter-spacing: 0.15em;
-        }
-        .nav-item:hover, .nav-item.active { color: #fff; }
-
-        /* メインコンテンツエリア */
-        .content-wrapper {
-            flex-grow: 1;
-            margin-top: calc(var(--banner-height) + var(--content-gap));
-            margin-left: var(--content-gap);
-            margin-right: var(--content-gap);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 1024px) {
-            .content-wrapper { margin: var(--banner-height) 0 0 0; border: none; }
-        }
-
-        /* カルーセル実装 */
-        .carousel-container {
-            width: 100%;
-            height: 50vh; 
+        /* Carousel Shape: Left-Rounded (Desktop) */
+        .carousel-box {
+            flex: 1.2;
+            height: 400px;
             position: relative;
-            background-color: #000;
+            background: #111;
+            border-radius: 200px 15px 15px 200px; 
             overflow: hidden;
-            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        @media (max-width: 768px) { .carousel-container { height: 40vh; } }
-
-        .carousel-slide {
+        .slide {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active { opacity: 1; z-index: 2; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+
+        /* --- Bottom Sections --- */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 50px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 20px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
         }
 
-        .carousel-slide.active {
-            opacity: 1;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.6;
-        }
-
-        .carousel-caption {
-            position: absolute;
-            bottom: 3rem;
-            left: 2rem;
-            right: 2rem;
-            z-index: 10;
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            bottom: 1.5rem;
-            right: 2rem;
-            display: flex;
-            gap: 0.5rem;
-            z-index: 20;
-        }
-
-        .indicator {
-            width: 30px;
-            height: 2px;
-            background-color: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .indicator.active {
-            background-color: #ffffff;
-        }
-
-        /* お知らせ */
-        .news-section { padding: 2rem; background-color: var(--bg-color); }
+        /* News List */
+        .news-list { display: flex; flex-direction: column; gap: 12px; }
         .news-item {
-            display: flex; flex-wrap: wrap; gap: 0.5rem;
-            padding: 1rem 0; border-bottom: 1px solid var(--border-color);
-            font-size: 0.75rem;
+            padding: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: 0.2s;
         }
-        .news-date { width: 100px; color: #525252; font-weight: 700; }
-        .news-title { flex-grow: 1; color: #d4d4d4; }
+        .news-item:active { transform: scale(0.98); background: var(--accent-glow); }
+        .date { font-size: 0.65rem; color: #555; margin-bottom: 4px; display: block; font-family: 'Inter'; }
+        .title { font-size: 0.85rem; color: #ccc; font-weight: 500; }
 
-        /* フッター */
-        footer {
-            padding: 3rem 2rem; background-color: #050505;
-            display: flex; flex-direction: column; gap: 2rem;
+        /* Guestbook */
+        .guestbook {
+            background: #080808;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .gb-scroll {
+            height: 180px;
+            overflow-y: auto;
+            padding: 16px;
+            font-size: 0.8rem;
+            color: #666;
+            background: rgba(0,0,0,0.2);
+        }
+        .gb-entry { border-left: 2px solid #1a1a1a; padding-left: 12px; margin-bottom: 12px; line-height: 1.5; }
+        .gb-input-row {
+            padding: 8px;
             border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+            background: #0f0f0f;
         }
-        @media (min-width: 768px) { footer { flex-direction: row; justify-content: space-between; } }
-
-        .menu-toggle {
-            display: none; position: fixed; top: 20px; right: 20px;
-            z-index: 120; color: white; cursor: pointer;
+        .gb-field {
+            flex: 1;
+            background: #000;
+            border: 1px solid #222;
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            outline: none;
+            font-size: 0.9rem;
         }
-        @media (max-width: 1024px) { .menu-toggle { display: block; } }
+        .gb-btn {
+            background: #fff;
+            color: #000;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 0 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
 
-        .content-wrapper::-webkit-scrollbar { width: 2px; }
-        .content-wrapper::-webkit-scrollbar-thumb { background: #262626; }
+        /* --- Footer --- */
+        footer {
+            padding: 40px 5%;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #030303;
+        }
+        .foot-info { font-size: 0.65rem; color: #444; letter-spacing: 0.05em; }
+
+        /* --- Mobile / Tablet Optimization --- */
+        @media (max-width: 850px) {
+            header { padding: 0 20px; }
+            .logo-box { margin-right: 15px; height: 24px; }
+            
+            main { padding: 30px 20px 50px; }
+
+            .hero-container {
+                flex-direction: column;
+                height: auto;
+                text-align: left;
+                gap: 30px;
+                margin-bottom: 60px;
+            }
+
+            .philosophy { padding-right: 0; }
+            .philosophy h2 { margin-bottom: 15px; }
+
+            /* Shape Change: Top-Rounded (Mobile) */
+            .carousel-box {
+                width: 100%;
+                height: 320px;
+                border-radius: 140px 140px 15px 15px; 
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+
+        /* Smallest Screen Adjustments */
+        @media (max-width: 480px) {
+            .nav-item { padding: 8px 10px; font-size: 0.7rem; }
+            .carousel-box { height: 260px; border-radius: 100px 100px 15px 15px; }
+            .philosophy h2 { font-size: 1.6rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="menu-toggle" id="menuToggle"><i data-lucide="menu"></i></div>
-
-    <div class="logo-box">
-        <div class="logo-text">AI Creators</div>
-    </div>
-
-    <header class="top-banner">
-        <div class="topic-text text-[10px] uppercase tracking-widest text-neutral-500">
-            Current: AI Visual Systems v2.2 - Active
+    <header>
+        <div class="logo-box">
+            <!-- プレースホルダー画像をロゴに差し替え可能 -->
+            <img src="images/logo.png" alt="NOBU-AI-LAB">
         </div>
+        <nav class="nav-links">
+            <a href="#" class="nav-item">Gallery</a>
+            <a href="#" class="nav-item">Lab Log</a>
+            <a href="#" class="nav-item">About</a>
+            <a href="#" class="nav-item">Contact</a>
+        </nav>
     </header>
 
-    <aside class="sidebar" id="sidebar">
-        <nav class="nav-menu">
-            <a href="homepage.html" class="nav-item active"><i data-lucide="home" class="w-4 h-4"></i> HOME</a>
-            <a href="collections.html" class="nav-item"><i data-lucide="grid" class="w-4 h-4"></i> GALLERY</a>
-            <a href="#" class="nav-item"><i data-lucide="zap" class="w-4 h-4"></i> LAB LOG</a>
-            <a href="about.html" class="nav-item"><i data-lucide="info" class="w-4 h-4"></i> ABOUT</a>
-            <a href="#" class="nav-item"><i data-lucide="send" class="w-4 h-4"></i> CONTACT</a>
-        </nav>
-        <div class="p-8 text-[8px] text-neutral-800 font-bold uppercase tracking-[0.3em]">© NOBU-AI-LAB</div>
-    </aside>
-
-    <div class="content-wrapper">
-        <!-- カルーセルセクション -->
-        <section class="carousel-container" id="carousel">
-            <!-- スライド 1 -->
-            <div class="carousel-slide active">
-                <img src="images/homepage.png" alt="Visual 01">
-                <div class="carousel-caption">
-                    <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic">Digital Art.</h1>
-                    <p class="text-neutral-500 text-[10px] tracking-[0.4em] uppercase">Visualizing the Inaudible.</p>
-                </div>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-container">
+            <div class="philosophy">
+                <span class="tagline">Creative AI Laboratory</span>
+                <h2>AIと創造する、<br>革新と伝統の物語。</h2>
+                <p>NOBU-AI-LABは、数学的な完璧さと人間の曖昧な感性を融合させる実験場です。冷徹なコードから生まれる、情熱的な視覚体験を追求します。</p>
             </div>
-            <!-- スライド 2 -->
-            <div class="carousel-slide">
-                <img src="images/homepage2.png" alt="Visual 02">
-                <div class="carousel-caption">
-                    <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic">Neural Aesthetic.</h1>
-                    <p class="text-neutral-500 text-[10px] tracking-[0.4em] uppercase">Deep Learning as Art Medium.</p>
-                </div>
-            </div>
-            <!-- スライド 3 -->
-            <div class="carousel-slide">
-                <img src="images/homepage3.png" alt="Visual 03">
-                <div class="carousel-caption">
-                    <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic">Ethereal Echo.</h1>
-                    <p class="text-neutral-500 text-[10px] tracking-[0.4em] uppercase">Beyond Human Perception.</p>
-                </div>
-            </div>
-
-            <!-- インジケーター -->
-            <div class="carousel-indicators" id="indicators">
-                <div class="indicator active" data-index="0"></div>
-                <div class="indicator" data-index="1"></div>
-                <div class="indicator" data-index="2"></div>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
-        </section>
-
-        <section class="news-section">
-            <div class="text-[10px] text-neutral-600 font-bold uppercase mb-4 tracking-widest">Update Archive</div>
-            <div class="news-list">
-                <div class="news-item">
-                    <span class="news-date">2024.06.20</span>
-                    <span class="news-title">カルーセルシステムの試験運用を開始。</span>
-                </div>
-                <div class="news-item">
-                    <span class="news-date">2024.06.10</span>
-                    <span class="news-title">新しいポートフォリオ「Ethereal」を公開。</span>
-                </div>
+            
+            <!-- Carousel: Responsive shape -->
+            <div class="carousel-box" id="heroCarousel">
+                <div class="slide active"><img src="images/homepage.png" alt="Concept 1"></div>
+                <div class="slide"><img src="images/homepage2.png" alt="Concept 2"></div>
+                <div class="slide"><img src="images/homepage3.png" alt="Concept 3"></div>
             </div>
         </section>
 
-        <footer>
+        <!-- Bottom Grid -->
+        <section class="bottom-grid">
+            <!-- Information -->
             <div>
-                <div class="font-black text-sm mb-4 tracking-widest">NOBU-AI-LAB</div>
-                <div class="text-[10px] text-neutral-600 leading-relaxed">
-                    Building 01, AI District, Shibuya, Tokyo<br>
-                    contact@nobu-ai-lab.cloud
+                <div class="section-label"><i data-lucide="bell" class="w-3.5 h-3.5"></i>Information</div>
+                <div class="news-list">
+                    <a href="#" class="news-item">
+                        <span class="date">2026.02.22</span>
+                        <span class="title">モバイル表示におけるインタラクションを最適化しました。</span>
+                    </a>
+                    <a href="#" class="news-item">
+                        <span class="date">2026.02.21</span>
+                        <span class="title">レイアウトを更新しました。</span>
+                    </a>
                 </div>
             </div>
-            <div class="flex flex-col items-start md:items-end gap-6">
-                <div class="flex gap-6 text-neutral-600">
-                    <a href="#"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-                    <a href="#"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-                    <a href="#"><i data-lucide="github" class="w-4 h-4"></i></a>
+
+            <!-- Guestbook -->
+            <div>
+                <div class="section-label"><i data-lucide="message-square" class="w-3.5 h-3.5"></i>Guestbook</div>
+                <div class="guestbook">
+                    <div class="gb-scroll" id="gbLog">
+                        <div class="gb-entry">Nobu: 訪問した足跡を残しましょう。</div>
+                    </div>
+                    <div class="gb-input-row">
+                        <input type="text" id="gbInput" class="gb-field" placeholder="足跡を残す..." maxlength="30">
+                        <button class="gb-btn" onclick="postMessage()">Send</button>
+                    </div>
                 </div>
-                <div class="text-[8px] text-neutral-700 uppercase tracking-widest">All Rights Reserved.</div>
             </div>
-        </footer>
-    </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="foot-info">© 2025 NOBU-AI-LAB — OSKA / TOKYO</div>
+        <div class="foot-info" style="font-family:monospace; color:#222;">BUILD V1.2.1_STABLE</div>
+    </footer>
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // Carousel Logic
+        function startCarousel() {
+            const slides = document.querySelectorAll('.slide');
+            let current = 0;
+            if (slides.length <= 1) return;
+            
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 5000);
+        }
+
+        // Guestbook Logic
+        function postMessage() {
+            const input = document.getElementById('gbInput');
+            const log = document.getElementById('gbLog');
+            if (input.value.trim()) {
+                const div = document.createElement('div');
+                div.className = "gb-entry";
+                const now = new Date();
+                const time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+                div.innerHTML = `<span style="color:#333;font-size:0.7rem;margin-right:8px;">${time}</span> > ${input.value}`;
+                log.prepend(div);
+                input.value = "";
+                log.scrollTop = 0;
+            }
+        }
+
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            startCarousel();
+            document.getElementById('gbInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') postMessage();
+            });
+        });
+    </script>
+</body>
+</html>
 
     <script>
         lucide.createIcons();
